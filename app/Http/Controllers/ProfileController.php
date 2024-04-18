@@ -16,10 +16,10 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function edit(): Response
     {
         return Inertia::render('profile/edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $this->getAuthUser() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
     }

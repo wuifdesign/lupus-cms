@@ -3,13 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasUuids, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -41,7 +43,23 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function updateLastLoginAt()
+    {
+        $this->last_login_at = now();
+    }
+
+    public function setLastLoginAt(Carbon $value)
+    {
+        $this->last_login_at = $value;
+    }
+
+    public function getLastLoginAt(): Carbon
+    {
+        return $this->last_login_at;
     }
 }
