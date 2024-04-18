@@ -1,23 +1,27 @@
-import { FormEventHandler, useEffect } from 'react'
-import GuestLayout from '@/layouts/guest-layout'
-import InputError from '@/components/input-error'
-import InputLabel from '@/components/input-label'
-import PrimaryButton from '@/components/primary-button'
-import TextInput from '@/components/text-input'
+import React, { FormEventHandler, useEffect } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
+import { GuestLayout } from '@/layouts/guest-layout'
+import { InputError } from '@/components/input-error'
+import { InputLabel } from '@/components/input-label'
+import { PrimaryButton } from '@/components/primary-button'
+import { TextInput } from '@/components/text-input'
+import { PageProps } from '@/types'
 
-export default function Register() {
-  const {data, setData, post, processing, errors, reset} = useForm({
+type RegisterProps = PageProps
+
+const Register: React.FC<RegisterProps> = () => {
+  const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
   })
 
   useEffect(() => {
     return () => {
       reset('password', 'password_confirmation')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const submit: FormEventHandler = (e) => {
@@ -28,11 +32,11 @@ export default function Register() {
 
   return (
     <GuestLayout>
-      <Head title="Register"/>
+      <Head title="Register" />
 
       <form onSubmit={submit}>
         <div>
-          <InputLabel htmlFor="name" value="Name"/>
+          <InputLabel htmlFor="name" value="Name" />
 
           <TextInput
             id="name"
@@ -45,11 +49,11 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.name} className="mt-2"/>
+          <InputError message={errors.name} className="mt-2" />
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="email" value="Email"/>
+          <InputLabel htmlFor="email" value="Email" />
 
           <TextInput
             id="email"
@@ -62,11 +66,11 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.email} className="mt-2"/>
+          <InputError message={errors.email} className="mt-2" />
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="password" value="Password"/>
+          <InputLabel htmlFor="password" value="Password" />
 
           <TextInput
             id="password"
@@ -79,11 +83,11 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.password} className="mt-2"/>
+          <InputError message={errors.password} className="mt-2" />
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="password_confirmation" value="Confirm Password"/>
+          <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
           <TextInput
             id="password_confirmation"
@@ -96,7 +100,7 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.password_confirmation} className="mt-2"/>
+          <InputError message={errors.password_confirmation} className="mt-2" />
         </div>
 
         <div className="flex items-center justify-end mt-4">
@@ -115,3 +119,5 @@ export default function Register() {
     </GuestLayout>
   )
 }
+
+export default Register

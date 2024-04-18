@@ -1,15 +1,15 @@
-import { FormEventHandler, useRef, useState } from 'react'
-import DangerButton from '@/components/danger-button'
-import InputError from '@/components/input-error'
-import InputLabel from '@/components/input-label'
-import Modal from '@/components/modal'
-import SecondaryButton from '@/components/secondary-button'
-import TextInput from '@/components/text-input'
+import React, { FormEventHandler, useRef, useState } from 'react'
 import { useForm } from '@inertiajs/react'
+import { DangerButton } from '@/components/danger-button'
+import { InputError } from '@/components/input-error'
+import { InputLabel } from '@/components/input-label'
+import { Modal } from '@/components/modal'
+import { SecondaryButton } from '@/components/secondary-button'
+import { TextInput, TextInputHandles } from '@/components/text-input'
 
-export default function DeleteUserForm({className = ''}: { className?: string }) {
+export const DeleteUserForm: React.FC<{ className?: string }> = ({ className = '' }) => {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false)
-  const passwordInput = useRef<HTMLInputElement>(null)
+  const passwordInput = useRef<TextInputHandles>(null)
 
   const {
     data,
@@ -17,9 +17,9 @@ export default function DeleteUserForm({className = ''}: { className?: string })
     delete: destroy,
     processing,
     reset,
-    errors
+    errors,
   } = useForm({
-    password: ''
+    password: '',
   })
 
   const confirmUserDeletion = () => {
@@ -33,7 +33,7 @@ export default function DeleteUserForm({className = ''}: { className?: string })
       preserveScroll: true,
       onSuccess: () => closeModal(),
       onError: () => passwordInput.current?.focus(),
-      onFinish: () => reset()
+      onFinish: () => reset(),
     })
   }
 
@@ -49,8 +49,8 @@ export default function DeleteUserForm({className = ''}: { className?: string })
         <h2 className="text-lg font-medium text-gray-900">Delete Account</h2>
 
         <p className="mt-1 text-sm text-gray-600">
-          Once your account is deleted, all of its resources and data will be permanently deleted. Before
-          deleting your account, please download any data or information that you wish to retain.
+          Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your
+          account, please download any data or information that you wish to retain.
         </p>
       </header>
 
@@ -58,17 +58,15 @@ export default function DeleteUserForm({className = ''}: { className?: string })
 
       <Modal show={confirmingUserDeletion} onClose={closeModal}>
         <form onSubmit={deleteUser} className="p-6">
-          <h2 className="text-lg font-medium text-gray-900">
-            Are you sure you want to delete your account?
-          </h2>
+          <h2 className="text-lg font-medium text-gray-900">Are you sure you want to delete your account?</h2>
 
           <p className="mt-1 text-sm text-gray-600">
-            Once your account is deleted, all of its resources and data will be permanently deleted. Please
-            enter your password to confirm you would like to permanently delete your account.
+            Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your
+            password to confirm you would like to permanently delete your account.
           </p>
 
           <div className="mt-6">
-            <InputLabel htmlFor="password" value="Password" className="sr-only"/>
+            <InputLabel htmlFor="password" value="Password" className="sr-only" />
 
             <TextInput
               id="password"
@@ -82,7 +80,7 @@ export default function DeleteUserForm({className = ''}: { className?: string })
               placeholder="Password"
             />
 
-            <InputError message={errors.password} className="mt-2"/>
+            <InputError message={errors.password} className="mt-2" />
           </div>
 
           <div className="mt-6 flex justify-end">

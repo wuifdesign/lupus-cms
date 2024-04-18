@@ -1,22 +1,22 @@
-import InputError from '@/components/input-error'
-import InputLabel from '@/components/input-label'
-import PrimaryButton from '@/components/primary-button'
-import TextInput from '@/components/text-input'
 import { Link, useForm, usePage } from '@inertiajs/react'
 import { Transition } from '@headlessui/react'
-import { FormEventHandler } from 'react'
+import React, { FormEventHandler } from 'react'
+import { InputError } from '@/components/input-error'
+import { InputLabel } from '@/components/input-label'
+import { PrimaryButton } from '@/components/primary-button'
+import { TextInput } from '@/components/text-input'
 import { PageProps } from '@/types'
 
-export default function UpdateProfileInformation({mustVerifyEmail, status, className = ''}: {
-  mustVerifyEmail: boolean,
-  status?: string,
+export const UpdateProfileInformationForm: React.FC<{
+  mustVerifyEmail: boolean
+  status?: string
   className?: string
-}) {
+}> = ({ mustVerifyEmail, status, className = '' }) => {
   const user = usePage<PageProps>().props.auth.user
 
-  const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
+  const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
     name: user.name,
-    email: user.email
+    email: user.email,
   })
 
   const submit: FormEventHandler = (e) => {
@@ -30,14 +30,12 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
       <header>
         <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
 
-        <p className="mt-1 text-sm text-gray-600">
-          Update your account's profile information and email address.
-        </p>
+        <p className="mt-1 text-sm text-gray-600">Update your account&lsquo;s profile information and email address.</p>
       </header>
 
       <form onSubmit={submit} className="mt-6 space-y-6">
         <div>
-          <InputLabel htmlFor="name" value="Name"/>
+          <InputLabel htmlFor="name" value="Name" />
 
           <TextInput
             id="name"
@@ -49,11 +47,11 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
             autoComplete="name"
           />
 
-          <InputError className="mt-2" message={errors.name}/>
+          <InputError className="mt-2" message={errors.name} />
         </div>
 
         <div>
-          <InputLabel htmlFor="email" value="Email"/>
+          <InputLabel htmlFor="email" value="Email" />
 
           <TextInput
             id="email"
@@ -65,7 +63,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
             autoComplete="username"
           />
 
-          <InputError className="mt-2" message={errors.email}/>
+          <InputError className="mt-2" message={errors.email} />
         </div>
 
         {mustVerifyEmail && user.email_verified_at === null && (

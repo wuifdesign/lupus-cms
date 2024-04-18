@@ -1,23 +1,27 @@
-import { FormEventHandler, useEffect } from 'react'
-import Checkbox from '@/components/checkbox'
-import GuestLayout from '@/layouts/guest-layout'
-import InputError from '@/components/input-error'
-import InputLabel from '@/components/input-label'
-import PrimaryButton from '@/components/primary-button'
-import TextInput from '@/components/text-input'
+import React, { FormEventHandler, useEffect } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
+import { Checkbox } from '@/components/checkbox'
+import { GuestLayout } from '@/layouts/guest-layout'
+import { InputError } from '@/components/input-error'
+import { InputLabel } from '@/components/input-label'
+import { PrimaryButton } from '@/components/primary-button'
+import { TextInput } from '@/components/text-input'
+import { PageProps } from '@/types'
 
-export default function Login({status, canResetPassword}: { status?: string, canResetPassword: boolean }) {
-  const {data, setData, post, processing, errors, reset} = useForm({
+type LoginProps = PageProps<{ status?: string; canResetPassword: boolean }>
+
+const Login: React.FC<LoginProps> = ({ status, canResetPassword }) => {
+  const { data, setData, post, processing, errors, reset } = useForm({
     email: '',
     password: '',
-    remember: false
+    remember: false,
   })
 
   useEffect(() => {
     return () => {
       reset('password')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const submit: FormEventHandler = (e) => {
@@ -28,13 +32,13 @@ export default function Login({status, canResetPassword}: { status?: string, can
 
   return (
     <GuestLayout>
-      <Head title="Log in"/>
+      <Head title="Log in" />
 
       {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
       <form onSubmit={submit}>
         <div>
-          <InputLabel htmlFor="email" value="Email"/>
+          <InputLabel htmlFor="email" value="Email" />
 
           <TextInput
             id="email"
@@ -47,11 +51,11 @@ export default function Login({status, canResetPassword}: { status?: string, can
             onChange={(e) => setData('email', e.target.value)}
           />
 
-          <InputError message={errors.email} className="mt-2"/>
+          <InputError message={errors.email} className="mt-2" />
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="password" value="Password"/>
+          <InputLabel htmlFor="password" value="Password" />
 
           <TextInput
             id="password"
@@ -63,16 +67,12 @@ export default function Login({status, canResetPassword}: { status?: string, can
             onChange={(e) => setData('password', e.target.value)}
           />
 
-          <InputError message={errors.password} className="mt-2"/>
+          <InputError message={errors.password} className="mt-2" />
         </div>
 
         <div className="block mt-4">
           <label className="flex items-center">
-            <Checkbox
-              name="remember"
-              checked={data.remember}
-              onChange={(e) => setData('remember', e.target.checked)}
-            />
+            <Checkbox name="remember" checked={data.remember} onChange={(e) => setData('remember', e.target.checked)} />
             <span className="ms-2 text-sm text-gray-600">Remember me</span>
           </label>
         </div>
@@ -95,3 +95,5 @@ export default function Login({status, canResetPassword}: { status?: string, can
     </GuestLayout>
   )
 }
+
+export default Login

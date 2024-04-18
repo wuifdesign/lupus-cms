@@ -1,8 +1,16 @@
 import { InertiaLinkProps, Link } from '@inertiajs/react'
+import React from 'react'
 
-export default function ResponsiveNavLink({active = false, className = '', children, ...props}: InertiaLinkProps & {
+type ResponsiveNavLinkProps = InertiaLinkProps & {
   active?: boolean
-}) {
+}
+
+export const ResponsiveNavLink: React.FC<ResponsiveNavLinkProps> = ({
+  active = false,
+  className = '',
+  children,
+  ...props
+}) => {
   return (
     <Link
       {...props}

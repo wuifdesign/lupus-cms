@@ -1,20 +1,26 @@
-import { createContext, Dispatch, Fragment, PropsWithChildren, SetStateAction, useContext, useState } from 'react'
+import React, {
+  createContext,
+  Dispatch,
+  Fragment,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react'
 import { InertiaLinkProps, Link } from '@inertiajs/react'
 import { Transition } from '@headlessui/react'
 
 const DropDownContext = createContext<{
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  toggleOpen: () => void;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  toggleOpen: () => void
 }>({
   open: false,
-  setOpen: () => {
-  },
-  toggleOpen: () => {
-  }
+  setOpen: () => {},
+  toggleOpen: () => {},
 })
 
-const Dropdown = ({children}: PropsWithChildren) => {
+export const Dropdown: React.FC<PropsWithChildren> = ({ children }) => {
   const [open, setOpen] = useState(false)
 
   const toggleOpen = () => {
@@ -22,14 +28,14 @@ const Dropdown = ({children}: PropsWithChildren) => {
   }
 
   return (
-    <DropDownContext.Provider value={{open, setOpen, toggleOpen}}>
+    <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
       <div className="relative">{children}</div>
     </DropDownContext.Provider>
   )
 }
 
-const Trigger = ({children}: PropsWithChildren) => {
-  const {open, setOpen, toggleOpen} = useContext(DropDownContext)
+export const DropdownTrigger: React.FC<PropsWithChildren> = ({ children }) => {
+  const { open, setOpen, toggleOpen } = useContext(DropDownContext)
 
   return (
     <>
@@ -40,12 +46,14 @@ const Trigger = ({children}: PropsWithChildren) => {
   )
 }
 
-const Content = ({align = 'right', width = '48', contentClasses = 'py-1 bg-white', children}: PropsWithChildren<{
-  align?: 'left' | 'right',
-  width?: '48',
-  contentClasses?: string
-}>) => {
-  const {open, setOpen} = useContext(DropDownContext)
+export const DropdownContent: React.FC<
+  PropsWithChildren<{
+    align?: 'left' | 'right'
+    width?: '48'
+    contentClasses?: string
+  }>
+> = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }) => {
+  const { open, setOpen } = useContext(DropDownContext)
 
   let alignmentClasses = 'origin-top'
 
@@ -77,29 +85,20 @@ const Content = ({align = 'right', width = '48', contentClasses = 'py-1 bg-white
           className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
           onClick={() => setOpen(false)}
         >
-          <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
+          <div className={`rounded-md ring-1 ring-black ring-opacity-5 ${contentClasses}`}>{children}</div>
         </div>
       </Transition>
     </>
   )
 }
 
-const DropdownLink = ({className = '', children, ...props}: InertiaLinkProps) => {
+export const DropdownLink: React.FC<InertiaLinkProps> = ({ className = '', children, ...props }) => {
   return (
     <Link
       {...props}
-      className={
-        'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
-        className
-      }
+      className={`block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ${className}`}
     >
       {children}
     </Link>
   )
 }
-
-Dropdown.Trigger = Trigger
-Dropdown.Content = Content
-Dropdown.Link = DropdownLink
-
-export default Dropdown
