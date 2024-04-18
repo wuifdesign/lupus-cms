@@ -48,6 +48,26 @@ class User extends Authenticatable
         ];
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
     public function updateLastLoginAt()
     {
         $this->last_login_at = now();
